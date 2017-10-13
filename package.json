@@ -3,7 +3,8 @@
   "scripts": {
     "start": "webpack-dev-server --progress --colors",
     "build:dev": "webpack",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "server": "node server.js"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.1",

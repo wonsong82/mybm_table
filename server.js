@@ -15,8 +15,17 @@ io.on('connection', function(socket){
     agent
         .get(url + '/api/content')
         .end(function(err, res){
-            socket.emit('content', {content: res.text});
+
+            agent
+                .get(url + '/api/data')
+                .end(function(err2, res2){
+                    let data = JSON.parse(res2.text)
+
+                    socket.emit('content', {content: res.text, data: data});
+
+                });
         });
+
 
 
 
@@ -30,6 +39,16 @@ io.on('connection', function(socket){
                         io.emit('content', {content: res.text});
                     });
             })
+    });
+
+
+    socket.on('change', function(data){
+        io.emit('change', data);
+
+        agent
+            .post(url + '/api/change')
+            .send(data)
+            .end()
     });
 
 

@@ -13,10 +13,36 @@ $(() => {
 
 
 
+    socket.on('change', data => {
+
+        // change leaders
+        $('.leader').prop('checked', false)
+        $.each(data.leaders, (i, e) => {
+            $('.leader[value="'+e+'"]').prop('checked', true)
+        })
+
+        // change members
+        $('.member').prop('checked', false)
+        $.each(data.members, (i, e) => {
+            $('.member[value="'+e+'"]').prop('checked', true)
+        })
+
+        // change total
+        $('#leaders_count').text(data.leaders.length)
+        $('#members_count').text(data.members.length)
+
+    })
+
+
+
+
     socket.on('content', res => {
 
         // general show content
         let content = $('#content')
+
+
+        // initial animation
         content.stop(true).css({opacity: 0}).html(res.content)
 
         let cols = $('.col')
@@ -28,6 +54,25 @@ $(() => {
         })
 
 
+        // list page specific
+        if(res.hasOwnProperty('data')){
+            let leaders = res.data.leaders,
+                members = res.data.members
+
+            $('#leaders_count').text(leaders.length)
+            $('#members_count').text(members.length)
+
+            // leaders
+            $.each(leaders, (i, e) => {
+                $('.leader[value="'+e+'"]').prop('checked', true)
+            })
+
+            // members
+            $.each(members, (i, e) => {
+                $('.member[value="'+e+'"]').prop('checked', true)
+            })
+        }
+
 
         // list page
         $('.leader, .member').each((i,e)=>{
@@ -38,8 +83,19 @@ $(() => {
                     } else {
                         $(e).prop('checked', true)
                     }
-                    return false
                 }
+
+                let leaders = []
+                $('.leader:checked').each((i, e) => {
+                    leaders.push(parseInt($(e).val()))
+                })
+
+                let members = []
+                $('.member:checked').each((i, e) => {
+                    members.push(parseInt($(e).val()))
+                })
+
+                socket.emit('change', {leaders, members})
             })
         })
 
@@ -54,6 +110,8 @@ $(() => {
             $('.member:checked').each((i, e) => {
                 members.push(parseInt($(e).val()))
             })
+
+            let total = $('#total').text();
 
             if(leaders.length && members.length) {
                 socket.emit('make', {leaders, members})

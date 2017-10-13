@@ -19,10 +19,12 @@ use Illuminate\Support\Facades\Route;
 });*/
 
 Route::get('/content', 'ApiController@content');
-
+Route::get('/data', 'ApiController@data');
 
 
 Route::get('/reset', 'ApiController@reset');
+
+Route::post('/change', 'ApiController@change');
 
 
 

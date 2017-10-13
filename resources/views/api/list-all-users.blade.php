@@ -3,9 +3,12 @@
     <div class="col">
 
         <div class="list">
-            <h6>그룹 리더들</h6>
+            <h6>그룹 리더들 (<span id="leaders_count">0</span>)</h6>
+        </div>
+
+        <div class="list">
             <ul>
-                @foreach($leaders as $leader)
+                @foreach($teamLeaders as $leader)
                     <li>
                         <input type="checkbox" class="leader" value="{{$leader->id}}">
                         <span class="name">{{$leader->name}}</span>
@@ -20,16 +23,30 @@
     <div class="col">
 
         <div class="list">
-            <h6>멤버들</h6>
+            <h6>참석멤버들 (<span id="members_count">0</span>)</h6>
+        </div>
+
+        @foreach($users as $soon)
+        <div class="list">
+            <h6>{{$soon->name}}</h6>
             <ul>
-                @foreach($members as $member)
-                    <li>
-                        <input type="checkbox" class="member" value="{{$member->id}}">
-                        <span class="name">{{$member->name}}</span>
-                    </li>
+                @if($soon->leader)
+                <li>
+                    <input type="checkbox" class="member" value="{{$soon->leader->id}}">
+                    <span class="name">{{$soon->leader->name}}</span>
+                </li>
+                @endif
+
+                @foreach($soon->members as $member)
+                <li>
+                    <input type="checkbox" class="member" value="{{$member->id}}">
+                    <span class="name">{{$member->name}}</span>
+                </li>
                 @endforeach
+
             </ul>
         </div>
+        @endforeach
 
     </div>
 

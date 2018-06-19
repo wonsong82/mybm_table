@@ -12,9 +12,6 @@
             integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.1/socket.io.js"></script>
-    <script>
-        window.appurl = '{{url('/')}}';
-    </script>
     <script src="{{url('assets/app.js')}}"></script>
 
 </head>

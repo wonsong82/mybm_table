@@ -1,9 +1,9 @@
 require('./index.scss')
-
+let config = require('../../.env.js')
 
 
 $(() => {
-    let socket = io(appurl + ':8080')
+    let socket = io(config.url + ':' + config.port)
 
 
     $('#reset').click(() => {
